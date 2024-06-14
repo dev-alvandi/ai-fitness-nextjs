@@ -210,15 +210,15 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-72px)] flex flex-col bg-black-theme text-white">
+    <div className="w-full h-[calc(100vh-70px)] flex flex-col bg-black-theme text-white">
       {/* List out the msgs */}
 
-      <div className="flex-grow overflow-y-scroll p-8 space-y-2 ">
-        {isFetching && messages.length === 0 && (
+      <div className="flex-grow overflow-y-scroll p-8 space-y-2 no-scrollbar">
+        {/* {isFetching && messages.length === 0 && (
           <div className="text-center text-xl font-semibold">Fetching...</div>
-        )}
+        )} */}
 
-        {messages.length === 0 && !isFetching && (
+        {messages.length === 0 && (
           <div className="text-center text-xl font-semibold">No messages</div>
         )}
 

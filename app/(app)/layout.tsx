@@ -1,13 +1,15 @@
 "use client";
 
 import Navbar from "@/components/navbar";
+import NotificationModal from "@/components/notification-modal";
 import useUserInfo from "@/hooks/use-user-thread";
+import useServiceWorker from "@/hooks/user-service-worker";
 import { prismadb } from "@/lib/prismadb";
 import { AssistantTableProps } from "@/types";
 import { useUser } from "@clerk/nextjs";
 import { UserThread } from "@prisma/client";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function AppLayout({
@@ -16,6 +18,11 @@ export default function AppLayout({
   children: React.ReactNode;
 }>) {
   const userInfo = useUserInfo();
+
+  const [isNotificationModalVisible, setIsNotificationModalVisible] =
+    useState(false);
+
+  useServiceWorker();
 
   useEffect(() => {
     if (userInfo.assistantId) return;
@@ -73,11 +80,61 @@ export default function AppLayout({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if ("Notification" in window) {
+      setIsNotificationModalVisible(Notification.permission === "default");
+      console.log("Notification permission:", Notification.permission);
+    }
+  }, []);
+
+  const handleNotificationModalClose = (didConsent: boolean) => {
+    setIsNotificationModalVisible(false);
+
+    if (didConsent) {
+      toast.success("You will now receive notification");
+    }
+  };
+
+  const saveSubscription = useCallback(async () => {
+    const serviceWorkerRegistration = await navigator.serviceWorker.ready;
+
+    const subscription = await serviceWorkerRegistration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
+    });
+
+    try {
+      const res = await axios.post("/api/subscription", subscription);
+
+      if (!res.data.success) {
+        console.error(res.data.message ?? "Unknown error.");
+        toast.error("Failed to save subscription.");
+        return;
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to save subscription.");
+    }
+  }, []);
+
+  useEffect(() => {
+    if ("Notification" in window && "serviceWorker" in navigator) {
+      if (Notification.permission === "granted") {
+        saveSubscription();
+      }
+    }
+  }, [saveSubscription]);
+
   return (
     <div className="flex flex-col w-full h-full">
       {/* Navbar */}
       <Navbar />
-
+      {isNotificationModalVisible && (
+        <NotificationModal
+          onRequestClose={handleNotificationModalClose}
+          saveSubscription={saveSubscription}
+        />
+      )}
       {children}
     </div>
   );

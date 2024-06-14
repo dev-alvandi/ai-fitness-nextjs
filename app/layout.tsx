@@ -8,8 +8,10 @@ import { ToastProvider } from "@/providers/toast-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "",
+  title: "AI Fitness Coach",
   description: "An AI empowered fitness coach application",
+  manifest: "/manifest.json",
+  icons: { apple: "/icon-192x192.png" },
 };
 
 export default function RootLayout({

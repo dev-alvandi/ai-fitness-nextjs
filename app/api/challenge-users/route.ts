@@ -81,7 +81,7 @@ export const POST = async (req: Request) => {
     );
   }
 
-  console.log(message);
+  // console.log(message);
 
   // Grab all challenge preferences
   const challengePreferences = await prismadb.challengePreferences.findMany({
@@ -90,11 +90,11 @@ export const POST = async (req: Request) => {
     },
   });
 
-  console.log("challengePreferences", challengePreferences);
+  // console.log("challengePreferences", challengePreferences);
 
   const userIds = challengePreferences.map((cp) => cp.userId);
 
-  console.log("userIds", userIds);
+  // console.log("userIds", userIds);
 
   //  Grab all user threads
   const userThreads = await prismadb.userThread.findMany({
@@ -105,8 +105,6 @@ export const POST = async (req: Request) => {
     },
   });
 
-  console.log("userThreads", userThreads);
-
   // Grab all user metadata
   const userMetas = await prismadb.userMeta.findMany({
     where: {
@@ -115,32 +113,55 @@ export const POST = async (req: Request) => {
       },
     },
   });
+  // console.log("userMetas", userMetas);
 
   const userThreadMap: UserThreadMap = userThreads.reduce((map, thread) => {
     map[thread.userId] = thread;
     return map;
   }, {} as UserThreadMap);
 
-  try {
-    const threadPromises: Promise<any>[] = [];
+  const userMetaMap = userMetas.reduce((map, meta) => {
+    map[meta.userId] = meta;
+    return map;
+  }, {} as UserMetaMap);
 
+  const threadAndNotificationsPromises: Promise<any>[] = [];
+  try {
     challengePreferences.forEach((cp) => {
       const userThread = userThreadMap[cp.userId];
 
       // Add message to thread
-
       if (userThread) {
-        threadPromises.push(
+        threadAndNotificationsPromises.push(
           axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/message/create`, {
             message,
             threadId: userThread.threadId,
             fromUser: false,
           })
         );
+
+        if (cp.sendNotifications) {
+          const correspondingUserMeta = userMetaMap[cp.userId];
+          threadAndNotificationsPromises.push(
+            axios.post(
+              `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-notifications`,
+              {
+                subscription: {
+                  endpoint: correspondingUserMeta.endpoint,
+                  keys: {
+                    auth: correspondingUserMeta.auth,
+                    p256dh: correspondingUserMeta.p256dh,
+                  },
+                },
+                message,
+              }
+            )
+          );
+        }
       }
     });
 
-    await Promise.all(threadPromises);
+    await Promise.all(threadAndNotificationsPromises);
 
     return NextResponse.json({ message }, { status: 200 });
   } catch (error) {
