@@ -24,7 +24,7 @@ export const POST = async (request: Request) => {
     where: { userId: user.id },
   });
 
-  //   console.log("existingUserMeta", existingUserMeta);
+  console.log("existingUserMeta", existingUserMeta);
 
   try {
     if (existingUserMeta) {

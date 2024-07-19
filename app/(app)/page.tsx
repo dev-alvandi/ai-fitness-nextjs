@@ -214,12 +214,13 @@ const ChatPage = () => {
       {/* List out the msgs */}
 
       <div className="flex-grow overflow-y-scroll p-8 space-y-2 no-scrollbar">
-        {/* {isFetching && messages.length === 0 && (
-          <div className="text-center text-xl font-semibold">Fetching...</div>
-        )} */}
-
-        {messages.length === 0 && (
-          <div className="text-center text-xl font-semibold">No messages</div>
+        {/* 1. FETCHING MESSAGES */}
+        {isFetching && messages.length === 0 && (
+          <div className="text-center font-bold">Fetching...</div>
+        )}
+        {/* 2. NO MESSAGES */}
+        {messages.length === 0 && !isFetching && (
+          <div className="text-center font-bold">No messages.</div>
         )}
 
         {messages.map((message) => (

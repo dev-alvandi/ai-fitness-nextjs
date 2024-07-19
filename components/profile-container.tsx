@@ -73,8 +73,6 @@ function ProfileContainer({ challengePreferences }: ProfileContainerProps) {
         return;
       }
 
-      console.log(res.data.data);
-
       toast.success("Preference saved.");
     } catch (error) {
       console.error(error);

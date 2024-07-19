@@ -90,7 +90,7 @@ export const POST = async (req: Request) => {
     },
   });
 
-  // console.log("challengePreferences", challengePreferences);
+  console.log("challengePreferences", challengePreferences);
 
   const userIds = challengePreferences.map((cp) => cp.userId);
 
@@ -125,6 +125,8 @@ export const POST = async (req: Request) => {
     return map;
   }, {} as UserMetaMap);
 
+  console.log(userMetas);
+
   const threadAndNotificationsPromises: Promise<any>[] = [];
   try {
     challengePreferences.forEach((cp) => {
@@ -142,6 +144,7 @@ export const POST = async (req: Request) => {
 
         if (cp.sendNotifications) {
           const correspondingUserMeta = userMetaMap[cp.userId];
+          console.log(userMetaMap);
           threadAndNotificationsPromises.push(
             axios.post(
               `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-notifications`,
@@ -172,5 +175,3 @@ export const POST = async (req: Request) => {
     );
   }
 };
-
-// 3:27:03

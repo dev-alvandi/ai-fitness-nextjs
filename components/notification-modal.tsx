@@ -27,13 +27,13 @@ const NotificationModal = ({
   };
 
   return createPortal(
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+    <div className="fixed inset-0 text-black bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg text-center">
         <h2 className="font-bold text-xl mb-4">
           Allow to send push notifications
         </h2>
         <p className="mb-4">
-          Receive notifications from Goggins AI when new workouts are available.
+          Receive notifications from the AI when new workouts are available.
         </p>
         <button
           className="bg-yellow-500 text-white py-2 px-4 rounded-lg"

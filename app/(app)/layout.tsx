@@ -98,6 +98,8 @@ export default function AppLayout({
   const saveSubscription = useCallback(async () => {
     const serviceWorkerRegistration = await navigator.serviceWorker.ready;
 
+    console.log(serviceWorkerRegistration);
+
     const subscription = await serviceWorkerRegistration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
@@ -105,6 +107,8 @@ export default function AppLayout({
 
     try {
       const res = await axios.post("/api/subscription", subscription);
+
+      console.log(subscription);
 
       if (!res.data.success) {
         console.error(res.data.message ?? "Unknown error.");
