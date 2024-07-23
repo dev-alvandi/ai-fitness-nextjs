@@ -44,7 +44,7 @@ function useServiceWorker() {
                 installingWorker.onstatechange = () => {
                   if (installingWorker.state === "installed") {
                     toast.success(
-                      "New update available! Please refresh page to update."
+                      "Ny uppdatering tillgänglig! Vänligen uppdatera sidan för att uppdatera"
                     );
                   }
                 };

@@ -39,14 +39,14 @@ export default function AppLayout({
           console.error(
             res.data.error ?? "Unknown error from getting the assistant"
           );
-          toast.error("Failed to get the assistant id");
+          toast.error("Misslyckades med att få assistentens ID.");
           return;
         }
 
         userInfo.setAssistantId(res.data.assistant.assistantId);
       } catch (error) {
         console.error(error);
-        toast.error("Failed to globally set the assistant id");
+        toast.error("Misslyckades med att globalt ställa in assistentens ID");
         userInfo.setAssistantId(null);
       }
     };
@@ -91,7 +91,7 @@ export default function AppLayout({
     setIsNotificationModalVisible(false);
 
     if (didConsent) {
-      toast.success("You will now receive notification");
+      toast.success("Du kommer nu att få avisering");
     }
   };
 
@@ -112,12 +112,12 @@ export default function AppLayout({
 
       if (!res.data.success) {
         console.error(res.data.message ?? "Unknown error.");
-        toast.error("Failed to save subscription.");
+        toast.error("Misslyckades med att spara prenumerationen");
         return;
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to save subscription.");
+      toast.error("Misslyckades med att spara prenumerationen");
     }
   }, []);
 

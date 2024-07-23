@@ -95,14 +95,14 @@ const ChatPage = () => {
 
       if (!success || !run) {
         console.error(error);
-        toast.error("An error occurred during starting run.");
+        toast.error("Ett fel inträffade under starten av körningen");
         return "";
       }
 
       return run.id;
     } catch (error) {
       console.error(error);
-      toast.error("An error occurred during starting run.");
+      toast.error("Ett fel inträffade under starten av körningen");
       return "";
     }
   };
@@ -129,7 +129,7 @@ const ChatPage = () => {
 
         if (!success || !run) {
           console.error(error);
-          toast.error("Failed retrieving run");
+          toast.error("Misslyckades med att hämta körningen.");
           return;
         }
 
@@ -141,12 +141,12 @@ const ChatPage = () => {
         } else if (run.status === "failed") {
           clearInterval(intervalId);
           setIsPollingRun(false);
-          toast.error("Run failed.");
+          toast.error("Körningen misslyckades");
           return;
         }
       } catch (error) {
         console.error(error);
-        toast.error("Failed to poll run status.");
+        toast.error("Misslyckades med att hämta körstatus");
         clearInterval(intervalId);
       }
     }, POLLING_FREQUENCY_MS);
@@ -157,11 +157,11 @@ const ChatPage = () => {
   const handleSendMessage = async (e: any) => {
     e.preventDefault();
     if (!userInfo.userThread?.threadId || isSending) {
-      toast.error("Failed to send message. Invalid state.");
+      toast.error("Misslyckades med att skicka meddelande. Ogiltigt tillstånd");
       return;
     }
     if (!userInfo.assistantId) {
-      toast.error("Assistant id not found");
+      toast.error("Assistentens ID hittades inte");
       return;
     }
 
@@ -183,13 +183,14 @@ const ChatPage = () => {
       console.log(newMessage);
 
       if (!newMessage) {
-        toast.error("Failed to send message. Please try again.");
+        toast.error(
+          "Misslyckades med att skicka meddelande. Vänligen försök igen"
+        );
         return;
       }
       setMessages((prevState) => [...prevState, newMessage]);
       setMessage("");
-      toast.success("Message sent successfully");
-      // ! Here is the problem
+      toast.success("Meddelande skickat framgångsrikt");
       const runId = await startRun(
         userInfo.userThread?.threadId,
         userInfo.assistantId
@@ -197,13 +198,13 @@ const ChatPage = () => {
       console.log(runId);
 
       if (!runId) {
-        toast.error("Failed to start run.");
+        toast.error("Misslyckades med att starta körningen");
         return;
       }
 
       pollRunStatus(userInfo.userThread?.threadId, runId);
     } catch (error) {
-      toast.error("An error occurred during sending the message.");
+      toast.error("Ett fel inträffade under sändning av meddelandet");
     } finally {
       setIsSending(false);
     }
