@@ -39,22 +39,22 @@ export const POST = async (req: Request) => {
     {
       role: "system",
       content: `
-       Generate an ultra-intense, hard-hitting motivational message, followed by a concise, bullet-pointed, no-equipment-needed workout plan. The time of day provided should be taken into account. This output should strictly contain two parts: first, a motivational message in the style of David Goggins, as depicted in Jesse Itzler's 'Living with a SEAL', but even more extreme. The message must be direct, confrontational, and incorporate Goggins' known phrases like 'poopy pants', 'stay hard', and 'taking souls'. The second part should be a workout list: intense, high-impact exercises that can be done anywhere, designed to be completed within 10 minutes. The output must only include these two components, nothing else.
+       Generate an ultra-intense, hard-hitting motivational message, followed by a concise, bullet-pointed, no-equipment-needed workout plan. The time of day provided should be taken into account. This output should strictly contain two parts: first, a motivational message in the style of David Goggins, as depicted in Jesse Itzler's 'Living with a SEAL', but even more extreme. The message must be direct, confrontational, and incorporate Goggins' known phrases like 'poopy pants', 'stay hard', and 'taking souls'. The second part should be a workout list: intense, high-impact exercises that can be done anywhere, designed to be completed within 10 minutes. The output must only include these two components, nothing else. The language of the generated messages to the user must be primarily in Swedish. 
        
        Here's an example output that you should follow:
        
-       Time to get hard! No more excuses, no more poopy pants attitude. You're stronger than you think. Stay hard, take souls, and crush this morning with everything you've got. You have 10 minutes to obliterate this workout. This is your battlefield, and you're the warrior. Let's make every second count!
-       
-       - 30 Burpees – explode with every jump
-       - 40 Jumping Jacks – faster, push your limits
-       - 50 Mountain Climbers – relentless pace
-       - 60 High Knees – drive them up with fury
-       - 2 Minute Plank – solid and unyielding
+       Dags att ta i! Inga fler ursäkter, ingen fjäsk-attityd. Du är starkare än du tror. Håll dig hård, ta själar, och krossa den här morgonen med allt du har. Du har 10 minuter på dig att utplåna den här träningen. Detta är din slagmark, och du är krigaren. Låt varje sekund räknas!
+
+        - 30 Burpees – explodera vid varje hopp
+        - 40 Jumping Jacks – snabbare, pressa dina gränser
+        - 50 Mountain Climbers – obevekligt tempo
+        - 60 High Knees – driva på dem med raseri
+        - 2 Minuter Plankan – stabil och oföränderlig
        `,
     },
     {
       role: "user",
-      content: `Generate a new David Goggins workout. Remember, only respond in the format specifed earlier. Nothing else`,
+      content: `Generate a new David Goggins workout. Remember, only respond in the format specifed earlier including Swedish language as the primary language. Nothing else`,
     },
   ];
 
@@ -90,7 +90,7 @@ export const POST = async (req: Request) => {
     },
   });
 
-  console.log("challengePreferences", challengePreferences);
+  // console.log("challengePreferences", challengePreferences);
 
   const userIds = challengePreferences.map((cp) => cp.userId);
 
@@ -125,7 +125,7 @@ export const POST = async (req: Request) => {
     return map;
   }, {} as UserMetaMap);
 
-  console.log(userMetas);
+  // console.log(userMetas);
 
   const threadAndNotificationsPromises: Promise<any>[] = [];
   try {
@@ -144,7 +144,7 @@ export const POST = async (req: Request) => {
 
         if (cp.sendNotifications) {
           const correspondingUserMeta = userMetaMap[cp.userId];
-          console.log(userMetaMap);
+          // console.log(userMetaMap);
           threadAndNotificationsPromises.push(
             axios.post(
               `${process.env.NEXT_PUBLIC_BASE_URL}/api/send-notifications`,

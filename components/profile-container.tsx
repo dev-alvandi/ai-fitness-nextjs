@@ -12,21 +12,21 @@ import axios from "axios";
 const difficulties = [
   {
     id: "EASY",
-    level: "Easy",
+    level: "Enkel",
     description:
-      "This challenge level is for people who are new to programming. Receive 3 challenges per day (7:30AM, 12PM, & 5:30PM EST).",
+      "Denna utmaningsnivå är för personer som är nya på träning. Ta emot 3 utmaningar per dag (07:30, 12:00 och 17:30).",
   },
   {
     id: "MEDIUM",
-    level: "Medium",
+    level: "Medel",
     description:
-      "This challenge level is for people who are familiar with programming. Receive 4 challenges per day (7AM, 12PM, 5PM, & 8PM EST).",
+      "Denna utmaningsnivå är för personer som är bekanta med träning. Ta emot 4 utmaningar per dag (07:00, 12:00, 17:00 och 20:00).",
   },
   {
     id: "HARD",
-    level: "Hard",
+    level: "Hård",
     description:
-      "This challenge level is for people who are experienced with programming. Receive 5 challenges per day (6AM, 9AM, 12PM, 5PM, & 8PM EST).",
+      "Denna utmaningsnivå är för personer som är erfarna med träning. Ta emot 5 utmaningar per dag (06:00, 09:00, 12:00, 17:00 och 20:00).",
   },
 ];
 
@@ -69,14 +69,14 @@ function ProfileContainer({ challengePreferences }: ProfileContainerProps) {
 
       if (!res.data.success || !res.data.data) {
         console.error(res.data.message);
-        toast.error(res.data.message ?? "Error during saving challenge");
+        toast.error(res.data.message ?? "Fel vid sparande av utmaning");
         return;
       }
 
-      toast.success("Preference saved.");
+      toast.success("Inställningen sparad.");
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error("Något gick fel. Försök igen, tack.");
     } finally {
       setSaving(false);
     }
@@ -85,16 +85,16 @@ function ProfileContainer({ challengePreferences }: ProfileContainerProps) {
   return (
     <div className="flex flex-col justify-between ">
       <div className="flex flex-row items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Challenge level</h1>
-        <Button onClick={handleSave}>{saving ? "Saving..." : "Save"}</Button>
+        <h1 className="text-2xl font-bold">Utmaningsnivå</h1>
+        <Button onClick={handleSave}>{saving ? "Sparar..." : "Spara"}</Button>
       </div>
       <div className="flex flex-row items-center justify-between mb-4 p-4 shadow rounded-lg">
         {/* Push nofi */}
         <div className="">
           <h3 className="font-medium text-lg text-gray-900 dark:text-gray-100">
-            Push Notifications
+            Push meddelanden
           </h3>
-          <p>Receive push notifications when new challenges are available.</p>
+          <p>Få push meddelanden när nya utmaningar är tillgängliga.</p>
         </div>
         <Switch
           checked={sendNotifications}

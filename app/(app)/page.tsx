@@ -251,7 +251,7 @@ const ChatPage = () => {
           <input
             type="text"
             className="flex-grow bg-transparent focus:outline-none text-black"
-            placeholder="Type a message..."
+            placeholder="Skriv ett meddelande..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
@@ -268,10 +268,10 @@ const ChatPage = () => {
             )}
           >
             {isSending
-              ? "Sending..."
+              ? "Sparar..."
               : isPollingRun
-              ? "Polling Run..."
-              : "Send"}
+              ? "Undersökning pågår..."
+              : "Skicka"}
           </Button>
         </form>
       </div>

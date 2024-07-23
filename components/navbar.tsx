@@ -8,11 +8,11 @@ import { ThemeToggle } from "./theme-toggle";
 
 const routes = [
   {
-    name: "Chat",
+    name: "Chatt",
     path: "/",
   },
   {
-    name: "Profile",
+    name: "Profil",
     path: "/profile",
   },
 ];
