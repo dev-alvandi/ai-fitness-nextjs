@@ -83,7 +83,7 @@ export default function AppLayout({
   useEffect(() => {
     if ("Notification" in window) {
       setIsNotificationModalVisible(Notification.permission === "default");
-      console.log("Notification permission:", Notification.permission);
+      // console.log("Notification permission:", Notification.permission);
     }
   }, []);
 
@@ -98,7 +98,7 @@ export default function AppLayout({
   const saveSubscription = useCallback(async () => {
     const serviceWorkerRegistration = await navigator.serviceWorker.ready;
 
-    console.log(serviceWorkerRegistration);
+    // console.log(serviceWorkerRegistration);
 
     const subscription = await serviceWorkerRegistration.pushManager.subscribe({
       userVisibleOnly: true,
@@ -107,8 +107,6 @@ export default function AppLayout({
 
     try {
       const res = await axios.post("/api/subscription", subscription);
-
-      console.log(subscription);
 
       if (!res.data.success) {
         console.error(res.data.message ?? "Unknown error.");
