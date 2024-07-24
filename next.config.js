@@ -18,7 +18,8 @@ const nextConfig = withPwa({
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: process.env.NEXT_PUBLIC_BACKEND_PUSH_NOTIFICATION_URL,
+            value: "*",
+            // value: process.env.NEXT_PUBLIC_BACKEND_PUSH_NOTIFICATION_URL,
           }, // replace this your actual origin
           {
             key: "Access-Control-Allow-Methods",
