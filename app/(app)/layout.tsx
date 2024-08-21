@@ -22,6 +22,7 @@ export default function AppLayout({
 
   useEffect(() => {
     userInfo.setUserThread(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useServiceWorker();
