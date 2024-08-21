@@ -95,7 +95,7 @@ function SettingsContainer({ challengePreferences }: SettingsContainerProps) {
           <h3 className="font-medium text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
             Push meddelanden{" "}
             {sendNotifications ? (
-              <Badge className="bg-green text-white">Aktive</Badge>
+              <Badge className="bg-green text-white">Aktiv</Badge>
             ) : (
               <Badge variant={"destructive"}>Inaktiv</Badge>
             )}
