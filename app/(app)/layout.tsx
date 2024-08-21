@@ -20,9 +20,14 @@ export default function AppLayout({
   const [isNotificationModalVisible, setIsNotificationModalVisible] =
     useState(false);
 
+  useEffect(() => {
+    userInfo.setUserThread(null);
+  }, []);
+
   useServiceWorker();
 
   useEffect(() => {
+    console.log("getAssistant");
     if (userInfo.assistantId) return;
 
     const getAssistant = async () => {
@@ -54,6 +59,7 @@ export default function AppLayout({
   }, []);
 
   useEffect(() => {
+    console.log("setUserThread");
     const getUserThread = async () => {
       try {
         const res = await axios.get<{
@@ -79,6 +85,7 @@ export default function AppLayout({
   }, []);
 
   useEffect(() => {
+    console.log("Notification");
     if ("Notification" in window) {
       setIsNotificationModalVisible(Notification.permission === "default");
       // console.log("Notification permission:", Notification.permission);

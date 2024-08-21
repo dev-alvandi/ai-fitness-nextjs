@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import useUserInfo from "@/hooks/use-user-thread";
 import { cn } from "@/lib/utils";
 import { ThreadMessageProps } from "@/types";
+import { UserThread } from "@prisma/client";
 import axios from "axios";
 import { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import { useCallback, useEffect, useState } from "react";
@@ -24,8 +25,6 @@ const ChatPage = () => {
     if (!userInfo.userThread?.threadId) {
       return;
     }
-
-    console.log(userInfo.userThread?.threadId);
 
     try {
       const res = await axios.post<{
@@ -68,6 +67,7 @@ const ChatPage = () => {
   }, [userInfo.userThread?.threadId]);
 
   useEffect(() => {
+    console.log("fetchMessages");
     const intervalId = setInterval(fetchMessages, POLLING_FREQUENCY_MS);
 
     return () => clearInterval(intervalId);

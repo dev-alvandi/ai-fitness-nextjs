@@ -14,6 +14,7 @@ export const POST = async (req: Request) => {
       { status: 400 }
     );
   }
+
   const openai = new OpenAI();
   try {
     const response = await openai.beta.threads.messages.list(threadId);
