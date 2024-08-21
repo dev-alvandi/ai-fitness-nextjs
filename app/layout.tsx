@@ -21,11 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      localization={svSE}
-      signInFallbackRedirectUrl={"read-me"}
-      signUpFallbackRedirectUrl={"read-me"}
-    >
+    <ClerkProvider localization={svSE}>
       <html lang="en">
         <body className={inter.className}>
           <ThemeProvider

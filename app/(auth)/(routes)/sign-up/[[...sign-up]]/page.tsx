@@ -99,7 +99,7 @@ export default function Page() {
 
       if (completeSignUp.status === "complete") {
         await setActive({ session: completeSignUp.createdSessionId });
-        router.push("/");
+        router.push("/read-me");
         router.refresh();
         toast.success("🎉 Du är registrerad", {
           id: "sign-up-id",

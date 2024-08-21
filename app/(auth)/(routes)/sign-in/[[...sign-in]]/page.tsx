@@ -36,7 +36,7 @@ export default function Page() {
         </DialogContent>
       </Dialog>
 
-      <SignIn />
+      <SignIn signUpForceRedirectUrl={"/read-me"} />
     </Fragment>
   );
 }
