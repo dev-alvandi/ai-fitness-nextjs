@@ -20,6 +20,7 @@ const config = {
     extend: {
       colors: {
         hero: "#E3651D",
+        green: "#00712D",
         "hero-dark": "#FF4C29",
         "black-theme": "#040D12",
         border: "hsl(var(--border))",

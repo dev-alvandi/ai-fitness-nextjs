@@ -8,6 +8,7 @@ import { useState } from "react";
 import DifficultyCard from "./difficulty-card";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { Badge } from "./ui/badge";
 
 const difficulties = [
   {
@@ -91,8 +92,13 @@ function SettingsContainer({ challengePreferences }: SettingsContainerProps) {
       <div className="flex flex-row items-center justify-between mb-4 p-4 shadow rounded-lg">
         {/* Push nofi */}
         <div className="">
-          <h3 className="font-medium text-lg text-gray-900 dark:text-gray-100">
-            Push meddelanden
+          <h3 className="font-medium text-lg text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            Push meddelanden{" "}
+            {sendNotifications ? (
+              <Badge className="bg-green text-white">Aktive</Badge>
+            ) : (
+              <Badge variant={"destructive"}>Inaktiv</Badge>
+            )}
           </h3>
           <p>Få push meddelanden när nya utmaningar är tillgängliga.</p>
         </div>
