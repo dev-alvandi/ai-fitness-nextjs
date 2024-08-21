@@ -20,12 +20,13 @@ const ChatPage = () => {
   const [messages, setMessages] = useState<ThreadMessageProps[] | []>([]);
   const [message, setMessage] = useState("");
 
+  console.log(messages);
+
   const fetchMessages = useCallback(async () => {
     if (!userInfo.userThread?.threadId) {
       return;
     }
 
-    setIsFetching(true);
     try {
       const res = await axios.post<{
         success: boolean;
@@ -44,9 +45,6 @@ const ChatPage = () => {
 
       let newMessages = res.data.messages;
 
-      if (newMessages) {
-      }
-
       // sort in desc order
 
       newMessages = newMessages
@@ -56,6 +54,7 @@ const ChatPage = () => {
         )
         .filter(
           (message) =>
+            message.content[0] &&
             message.content[0].type === "text" &&
             message.content[0].text.value.trim() !== ""
         );
@@ -65,7 +64,6 @@ const ChatPage = () => {
       console.error(error);
       setMessages([]);
     } finally {
-      setIsFetching(false);
     }
   }, [userInfo.userThread?.threadId]);
 
@@ -114,8 +112,6 @@ const ChatPage = () => {
 
     const intervalId = setInterval(async () => {
       try {
-        // 2:31:26
-
         const {
           data: { success, run, error },
         } = await axios.post<{
@@ -137,6 +133,10 @@ const ChatPage = () => {
           clearInterval(intervalId);
           setIsPollingRun(false);
           fetchMessages();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
           return;
         } else if (run.status === "failed") {
           clearInterval(intervalId);
@@ -148,6 +148,8 @@ const ChatPage = () => {
         console.error(error);
         toast.error("Misslyckades med att hämta körstatus");
         clearInterval(intervalId);
+      } finally {
+        setIsFetching(false);
       }
     }, POLLING_FREQUENCY_MS);
 
@@ -156,6 +158,7 @@ const ChatPage = () => {
 
   const handleSendMessage = async (e: any) => {
     e.preventDefault();
+
     if (!userInfo.userThread?.threadId || isSending) {
       toast.error("Misslyckades med att skicka meddelande. Ogiltigt tillstånd");
       return;
@@ -168,6 +171,7 @@ const ChatPage = () => {
     setIsSending(false);
 
     try {
+      setIsFetching(true);
       const {
         data: { message: newMessage },
       } = await axios.post<{
@@ -179,8 +183,6 @@ const ChatPage = () => {
         threadId: userInfo.userThread?.threadId,
         fromUser: "true",
       });
-
-      console.log(newMessage);
 
       if (!newMessage) {
         toast.error(
@@ -195,7 +197,7 @@ const ChatPage = () => {
         userInfo.userThread?.threadId,
         userInfo.assistantId
       );
-      console.log(runId);
+      // console.log(runId);
 
       if (!runId) {
         toast.error("Misslyckades med att starta körningen");
@@ -211,16 +213,17 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-70px)] flex flex-col bg-black-theme text-white">
+    <div className="w-full max-w-screen-lg lg:mx-auto h-[calc(100vh-70px)] flex flex-col bg-black-theme text-white">
       {/* List out the msgs */}
 
-      <div className="flex-grow overflow-y-scroll p-8 space-y-2 no-scrollbar">
+      <div className="flex-grow overflow-y-scroll p-8 space-y-2 smooth-scrollbar">
         {/* 1. FETCHING MESSAGES */}
-        {isFetching && messages.length === 0 && (
+        {isFetching && messages.length !== 0 && (
           <div className="text-center font-bold">Fetching...</div>
         )}
         {/* 2. NO MESSAGES */}
-        {messages.length === 0 && !isFetching && (
+        {messages.length === 0 && (
+          // && !isFetching
           <div className="text-center font-bold">No messages.</div>
         )}
 
@@ -234,10 +237,11 @@ const ChatPage = () => {
                 : "bg-gray-700"
             )}
           >
-            {message.content[0].type === "text" &&
-              message.content[0].text.value
-                .split("\n")
-                .map((text, i) => <p key={i}>{text}</p>)}
+            {message.content[0].type === "text"
+              ? message.content[0].text.value
+                  .split("\n")
+                  .map((text, i) => <p key={i}>{text}</p>)
+              : null}
           </div>
         ))}
       </div>
@@ -265,7 +269,7 @@ const ChatPage = () => {
               message.trim() === ""
             }
             className={cn(
-              "ml-4 bg-hero text-white px-4 py-2 rounded-full focus:outline-none disabled:bg-hero-dark"
+              "ml-4 bg-hero text-white px-4 py-2 rounded-full focus:outline-none disabled:bg-hero-dark hover:text-hero"
             )}
           >
             {isSending

@@ -12,8 +12,8 @@ const routes = [
     path: "/",
   },
   {
-    name: "Profil",
-    path: "/profile",
+    name: "Inställningar",
+    path: "/settings",
   },
 ];
 
@@ -23,9 +23,9 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center bg-black-theme text-white dark:bg-hero dark:text-black-theme p-4">
       <Link href={"/"}>
-        <h1 className="text-2xl font-bold">Fast & Fit</h1>
+        <h1 className="text-xl lg:text-2xl font-bold">Fast & Fit</h1>
       </Link>
-      <div className="space-x-6 flex items-center text-lg">
+      <div className="space-x-4 lg:space-x-6 flex items-center text-base lg:text-lg">
         {routes.map((route) => (
           <Link
             key={route.path}

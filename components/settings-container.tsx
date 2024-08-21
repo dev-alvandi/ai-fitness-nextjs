@@ -32,11 +32,11 @@ const difficulties = [
 
 type Difficulties = "EASY" | "MEDIUM" | "HARD";
 
-interface ProfileContainerProps {
+interface SettingsContainerProps {
   challengePreferences: ChallengePreferences;
 }
 
-function ProfileContainer({ challengePreferences }: ProfileContainerProps) {
+function SettingsContainer({ challengePreferences }: SettingsContainerProps) {
   const [sendNotifications, setSendNotifications] = useState(
     challengePreferences.sendNotifications
   );
@@ -120,4 +120,4 @@ function ProfileContainer({ challengePreferences }: ProfileContainerProps) {
   );
 }
 
-export default ProfileContainer;
+export default SettingsContainer;

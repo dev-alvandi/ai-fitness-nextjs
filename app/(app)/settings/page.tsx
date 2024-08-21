@@ -1,8 +1,8 @@
-import ProfileContainer from "@/components/profile-container";
+import SettingsContainer from "@/components/settings-container";
 import { prismadb } from "@/lib/prismadb";
 import { currentUser } from "@clerk/nextjs/server";
 
-const ProfilePage = async () => {
+const SettingsPage = async () => {
   const user = await currentUser();
 
   if (!user) {
@@ -26,9 +26,9 @@ const ProfilePage = async () => {
 
   return (
     <div className="max-w-screen-lg m-10 lg:mx-auto">
-      <ProfileContainer challengePreferences={challengePreferences} />
+      <SettingsContainer challengePreferences={challengePreferences} />
     </div>
   );
 };
 
-export default ProfilePage;
+export default SettingsPage;

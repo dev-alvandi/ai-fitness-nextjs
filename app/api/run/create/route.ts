@@ -30,7 +30,7 @@ export const POST = async (req: Request) => {
       assistant_id: assistantId,
     });
 
-    console.log("From OpenAPI run", run);
+    // console.log("From OpenAPI run", run);
 
     return NextResponse.json({ run, success: true }, { status: 201 });
   } catch (error) {
