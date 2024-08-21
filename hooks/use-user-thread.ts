@@ -13,12 +13,15 @@ const useUserInfo = create(
   persist<UserInfoProps>(
     (set, get) => ({
       userThread: null,
-      setUserThread: (userThread: UserThread | null) => {
-        set({ userThread: userThread });
-      },
+
       assistantId: null,
+
+      setUserThread: (userThread: UserThread | null) => {
+        set(() => ({ userThread }));
+      },
+
       setAssistantId: (assistantId: string | null) => {
-        set({ assistantId: assistantId });
+        set(() => ({ assistantId }));
       },
     }),
     {

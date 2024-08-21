@@ -25,6 +25,8 @@ const ChatPage = () => {
       return;
     }
 
+    console.log(userInfo.userThread?.threadId);
+
     try {
       const res = await axios.post<{
         success: boolean;
@@ -211,7 +213,7 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="w-full max-w-screen-lg lg:mx-auto h-[calc(100vh-70px)] flex flex-col bg-black-theme text-white">
+    <div className="relative w-full max-w-screen-lg lg:mx-auto h-[calc(100vh-70px)] flex flex-col bg-black-theme text-white">
       {/* List out the msgs */}
 
       <div className="flex-grow overflow-y-scroll p-8 space-y-2 smooth-scrollbar">
@@ -246,7 +248,7 @@ const ChatPage = () => {
 
       {/* Inputs */}
 
-      <div className="mt-auto p-4 bg-gray-800">
+      <div className="mt-auto p-4 bg-gray-800 w-full">
         <form
           onSubmit={handleSendMessage}
           className="flex items-center bg-white p-2"
@@ -270,11 +272,7 @@ const ChatPage = () => {
               "ml-4 bg-hero text-white px-4 py-2 rounded-full focus:outline-none disabled:bg-hero-dark hover:text-hero"
             )}
           >
-            {isSending
-              ? "Sparar..."
-              : isPollingRun
-              ? "Undersökning pågår..."
-              : "Skicka"}
+            {isSending ? "Sparar..." : isPollingRun ? "polling..." : "Skicka"}
           </Button>
         </form>
       </div>
