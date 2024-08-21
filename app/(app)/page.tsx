@@ -67,7 +67,6 @@ const ChatPage = () => {
   }, [userInfo.userThread?.threadId]);
 
   useEffect(() => {
-    console.log("fetchMessages");
     const intervalId = setInterval(fetchMessages, POLLING_FREQUENCY_MS);
 
     return () => clearInterval(intervalId);
