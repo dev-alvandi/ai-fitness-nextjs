@@ -17,7 +17,6 @@ export const POST = async (req: Request) => {
   const openai = new OpenAI();
   try {
     const response = await openai.beta.threads.messages.list(threadId);
-    // console.log("From OpenAPI messages", response);
 
     return NextResponse.json(
       { messages: response.data, success: true },

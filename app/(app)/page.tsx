@@ -20,8 +20,6 @@ const ChatPage = () => {
   const [messages, setMessages] = useState<ThreadMessageProps[] | []>([]);
   const [message, setMessage] = useState("");
 
-  console.log(messages);
-
   const fetchMessages = useCallback(async () => {
     if (!userInfo.userThread?.threadId) {
       return;
