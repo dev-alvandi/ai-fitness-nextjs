@@ -240,15 +240,7 @@ const ChatPage = () => {
               ? message.content[0].text.value
                   .split("\n")
 
-                  .map((text, i) => (
-                    <p key={i}>
-                      {["true", "True"].includes(
-                        message.metadata.fromUser ?? ""
-                      )
-                        ? text
-                        : text.slice(1, -1)}
-                    </p>
-                  ))
+                  .map((text, i) => <p key={i}>{text}</p>)
               : null}
           </div>
         ))}

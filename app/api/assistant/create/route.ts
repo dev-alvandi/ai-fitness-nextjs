@@ -42,7 +42,7 @@ export const POST = async () => {
 
             Error Handling:
 
-              If a user submits a message that is unreadable, nonsensical, or not relevant:
+              If a user submits a message that is unreadable or nonsensical grammatically:
 
             The assistant should respond:
 
